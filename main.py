@@ -123,7 +123,13 @@ def walk():
 
 
 def showScoreboard():
-    ...
+    if settings["rigger"] == 1:
+        print(f'Pontuação do Jogador 1: {settings["riggerScore"]}')
+        print(f'Pontuação do Jogador 2: {settings["wandererScore"]}')
+    elif settings["wanderer"] == 1:
+        print(f'Pontuação do Jogador 1: {settings["wandererScore"]}')
+        print(f'Pontuação do Jogador 2: {settings["riggerScore"]}')
+
 
 def menu():
     n = -1
