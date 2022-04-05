@@ -15,7 +15,14 @@ for i in range(7):
     field.append(row)
 
 
-def resetField(field):
+def printField():
+    for row in field:
+        for value in row:
+            print(f"{value} ", end="")
+        print()
+
+
+def resetField():
     field = []
     for i in range(7):
         row = []
@@ -24,10 +31,38 @@ def resetField(field):
         field.append(row)
 
 
+def validateSpace(space):
+    if 2 <= space and space <= 6:
+        return [space - 1 ,space, space + 1]
+
+    match space:
+        case 1:
+            return [1, 2]
+        case 7:
+            return [6, 7]
+        case _:
+            return [1, 2, 3, 4, 5, 6, 7]
+
+
+def validateInput(validSpaces = [1, 2], str = "Qual jogador plantará as armadilhas? [1 ou 2] "):
+    while True:
+        space = int(input(str))
+
+        if space in validSpaces:
+            return space
+        else:
+            print("Entrada inválida, tente novamente.\n")
+
+
+def verifyTraps(row: int, column: int) -> bool:
+    if field[row][column] == "A":
+        return False
+    elif field[row][column] == "O":
+        return True
+
+
 def defineRigger():
-    settings["rigger"] = int(input("Qual jogador plantará as armadilhas? [1 ou 2] "))
-    while (settings["rigger"] != 1) and (settings["rigger"] != 2):
-        settings["rigger"] = int(input("Digite um número válido[1 ou 2]: "))
+    settings["rigger"] = validateInput()
     if settings["rigger"] == 1:
         settings["wanderer"] = 2
     else:
@@ -46,10 +81,7 @@ def plantTraps():
     counter = 0
     traps = 0
 
-    for row in field:
-        for value in row:
-            print(f"{value} ", end="")
-        print()
+    printField()
 
     while counter < 7:
         if traps == 15:
@@ -66,11 +98,32 @@ def plantTraps():
             counter+=1
             print("Você já colocou o máximo de 3 armadilhas nessa linha, vá para a próxima.\n")
 
-    for row in field:
-        for value in row:
-            print(f"{value} ", end="")
-        print()
+    printField()
 
+
+def walk():
+    for i in range(100):
+        n = "=" * i
+        print(n)
+    
+    space = 0
+    for row in range(0, 7):
+        validSpaces = validateSpace(space)
+        print(f'Para a linha {row + 1} são válidos os espaços: {validSpaces}.')
+        space = validateInput(validSpaces, 'Escolha sabiamente um dos espaços válidos: ')
+        if verifyTraps(row, space - 1) == False:
+            print("Ufa! Você não pisou em nenhuma armadilha dessa vez!\n")
+        else:
+            print("Eca! Você pisou em um ovo podre e perdeu.\n")
+            settings["riggerScore"] += 1
+            return -1
+
+    print("Você atravessou o terreno sem cair em nenhuma armadilha! Parabéns!!!!")
+    settings["wandererScore"] += 1
+
+
+def showScoreboard():
+    ...
 
 def menu():
     n = -1
@@ -87,6 +140,10 @@ def menu():
                 defineRigger()
             case "2":
                 plantTraps()
+            case "3":
+                walk()
+            case "4":
+                showScoreboard()
             case "0":
                 print("Jogo encerrado.")
                 return 1
