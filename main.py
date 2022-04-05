@@ -15,6 +15,7 @@ for i in range(7):
     field.append(row)
 
 
+# imprime o terreno
 def printField():
     for row in field:
         for value in row:
@@ -22,6 +23,7 @@ def printField():
         print()
 
 
+# redefine o terreno para o valor original
 def resetField():
     field = []
     for i in range(7):
@@ -31,6 +33,7 @@ def resetField():
         field.append(row)
 
 
+# verifica os espaços válidos na próxima linha do terreno
 def validateSpace(space):
     if 2 <= space and space <= 6:
         return [space - 1 ,space, space + 1]
@@ -44,6 +47,7 @@ def validateSpace(space):
             return [1, 2, 3, 4, 5, 6, 7]
 
 
+# valida se as entradas são válidas
 def validateInput(validSpaces = [1, 2], str = "Qual jogador plantará as armadilhas? [1 ou 2] "):
     while True:
         space = int(input(str))
@@ -54,6 +58,7 @@ def validateInput(validSpaces = [1, 2], str = "Qual jogador plantará as armadil
             print("Entrada inválida, tente novamente.\n")
 
 
+# verifica se o espaço dado contém uma armadilha
 def verifyTraps(row: int, column: int) -> bool:
     if field[row][column] == "A":
         return False
@@ -61,6 +66,7 @@ def verifyTraps(row: int, column: int) -> bool:
         return True
 
 
+# define o armador e o andarilho
 def defineRigger():
     settings["rigger"] = validateInput()
     if settings["rigger"] == 1:
@@ -72,6 +78,7 @@ def defineRigger():
     print(f'O andarilho é o jogador: {settings["wanderer"]}\n')
 
 
+# procedimento para o armador plantar as armadilhas no terreno
 def plantTraps():
     if settings["rigger"] != 1 and settings["rigger"] != 2:
         print("Armador não selecionado, por favor, defina o armador.")
@@ -101,6 +108,7 @@ def plantTraps():
     printField()
 
 
+# função para possibilitar o andarilho caminhar pelo mapa
 def walk():
     for i in range(100):
         n = "=" * i
@@ -122,6 +130,7 @@ def walk():
     settings["wandererScore"] += 1
 
 
+# função para mostrar o placar
 def showScoreboard():
     if settings["rigger"] == 1:
         print(f'Pontuação do Jogador 1: {settings["riggerScore"]}')
@@ -131,6 +140,7 @@ def showScoreboard():
         print(f'Pontuação do Jogador 2: {settings["riggerScore"]}')
 
 
+# função com o menu do jogo
 def menu():
     n = -1
     while n != 0:
