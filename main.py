@@ -15,14 +15,14 @@ for i in range(7):
     field.append(row)
 
 
-def printField():
+def printField() -> None:
     for row in field:
         for value in row:
             print(f"{value} ", end="")
         print()
 
 
-def resetField():
+def resetField() -> None:
     field = []
     for i in range(7):
         row = []
@@ -31,7 +31,7 @@ def resetField():
         field.append(row)
 
 
-def validateSpace(space):
+def validateSpace(space: int) -> list:
     if 2 <= space and space <= 6:
         return [space - 1 ,space, space + 1]
 
@@ -44,7 +44,7 @@ def validateSpace(space):
             return [1, 2, 3, 4, 5, 6, 7]
 
 
-def validateInput(validSpaces = [1, 2], str = "Qual jogador plantará as armadilhas? [1 ou 2] "):
+def validateInput(validSpaces = [1, 2], str = "Qual jogador plantará as armadilhas? [1 ou 2] ") -> int:
     while True:
         space = int(input(str))
 
@@ -61,7 +61,7 @@ def verifyTraps(row: int, column: int) -> bool:
         return True
 
 
-def defineRigger():
+def defineRigger() -> None:
     settings["rigger"] = validateInput()
     if settings["rigger"] == 1:
         settings["wanderer"] = 2
@@ -72,7 +72,7 @@ def defineRigger():
     print(f'O andarilho é o jogador: {settings["wanderer"]}\n')
 
 
-def plantTraps():
+def plantTraps() -> None:
     if settings["rigger"] != 1 and settings["rigger"] != 2:
         print("Armador não selecionado, por favor, defina o armador.")
         return 0
@@ -101,7 +101,7 @@ def plantTraps():
     printField()
 
 
-def walk():
+def walk() -> None:
     for i in range(100):
         n = "=" * i
         print(n)
@@ -122,7 +122,7 @@ def walk():
     settings["wandererScore"] += 1
 
 
-def showScoreboard():
+def showScoreboard() -> None:
     if settings["rigger"] == 1:
         print(f'Pontuação do Jogador 1: {settings["riggerScore"]}')
         print(f'Pontuação do Jogador 2: {settings["wandererScore"]}')
@@ -131,7 +131,7 @@ def showScoreboard():
         print(f'Pontuação do Jogador 2: {settings["riggerScore"]}')
 
 
-def menu():
+def menu() -> None:
     n = -1
     while n != 0:
         print("1 - Definir Armador")
