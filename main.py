@@ -7,6 +7,8 @@ settings = {
     "wandererScore": 0,
     "traps": 15
 }
+
+
 field = []
 for i in range(7):
     row = []
@@ -15,6 +17,7 @@ for i in range(7):
     field.append(row)
 
 
+# imprime o terreno
 def printField() -> None:
     for row in field:
         for value in row:
@@ -23,7 +26,8 @@ def printField() -> None:
     print()
 
 
-def resetField() -> None:
+# redefine o terreno para o valor original
+def resetField(): -> None:
     field = []
     for i in range(7):
         row = []
@@ -32,6 +36,7 @@ def resetField() -> None:
         field.append(row)
 
 
+# verifica os espaços válidos na próxima linha do terreno
 def validateSpace(space: int) -> list:
     if 2 <= space and space <= 6:
         return [space - 1 ,space, space + 1]
@@ -45,6 +50,7 @@ def validateSpace(space: int) -> list:
             return [1, 2, 3, 4, 5, 6, 7]
 
 
+# valida se as entradas são válidas
 def validateInput(validSpaces = [1, 2], str = "Qual jogador plantará as armadilhas? [1 ou 2] ") -> int:
     while True:
         space = int(input(str))
@@ -55,6 +61,7 @@ def validateInput(validSpaces = [1, 2], str = "Qual jogador plantará as armadil
             print("Entrada inválida, tente novamente.\n")
 
 
+# verifica se o espaço dado contém uma armadilha
 def verifyTraps(row: int, column: int) -> bool:
     if field[row][column] == "A":
         return False
@@ -62,6 +69,7 @@ def verifyTraps(row: int, column: int) -> bool:
         return True
 
 
+# define o armador e o andarilho
 def defineRigger() -> None:
     settings["rigger"] = validateInput()
     if settings["rigger"] == 1:
@@ -73,6 +81,7 @@ def defineRigger() -> None:
     print(f'O andarilho é o jogador: {settings["wanderer"]}\n')
 
 
+# procedimento para o armador plantar as armadilhas no terreno
 def plantTraps() -> None:
     if settings["rigger"] != 1 and settings["rigger"] != 2:
         print("Armador não selecionado, por favor, defina o armador.")
@@ -102,6 +111,7 @@ def plantTraps() -> None:
     printField()
 
 
+# função para possibilitar o andarilho caminhar pelo mapa
 def walk() -> None:
     for i in range(100):
         n = "=" * i
@@ -123,6 +133,7 @@ def walk() -> None:
     settings["wandererScore"] += 1
 
 
+# função para mostrar o placar
 def showScoreboard() -> None:
     if settings["rigger"] == 1:
         print(f'Pontuação do Jogador 1: {settings["riggerScore"]}.')
@@ -132,6 +143,7 @@ def showScoreboard() -> None:
         print(f'Pontuação do Jogador 2: {settings["riggerScore"]}.\n')
 
 
+# função com o menu do jogo
 def menu() -> None:
     n = -1
     while n != 0:
