@@ -20,6 +20,7 @@ def printField() -> None:
         for value in row:
             print(f"{value} ", end="")
         print()
+    print()
 
 
 def resetField() -> None:
@@ -124,11 +125,11 @@ def walk() -> None:
 
 def showScoreboard() -> None:
     if settings["rigger"] == 1:
-        print(f'Pontuação do Jogador 1: {settings["riggerScore"]}')
-        print(f'Pontuação do Jogador 2: {settings["wandererScore"]}')
+        print(f'Pontuação do Jogador 1: {settings["riggerScore"]}.')
+        print(f'Pontuação do Jogador 2: {settings["wandererScore"]}.\n')
     elif settings["wanderer"] == 1:
-        print(f'Pontuação do Jogador 1: {settings["wandererScore"]}')
-        print(f'Pontuação do Jogador 2: {settings["riggerScore"]}')
+        print(f'Pontuação do Jogador 1: {settings["wandererScore"]}.')
+        print(f'Pontuação do Jogador 2: {settings["riggerScore"]}.\n')
 
 
 def menu() -> None:
@@ -145,10 +146,13 @@ def menu() -> None:
                 os.system("clear")
                 defineRigger()
             case "2":
+                os.system("clear")
                 plantTraps()
             case "3":
+                os.system("clear")
                 walk()
             case "4":
+                os.system("clear")
                 showScoreboard()
             case "0":
                 print("Jogo encerrado.")
