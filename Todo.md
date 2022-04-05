@@ -8,7 +8,7 @@
 [x] - função para atravessar o campo
 [x] - função para mostrar o placar
 [x] - tipagem do código
-[] - comentários das funções
+[x] - comentários das funções
 [x] - validar inputs
-[] - organização de ui
+[x] - organização de ui
 [] - readme

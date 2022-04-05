@@ -27,7 +27,7 @@ def printField() -> None:
 
 
 # redefine o terreno para o valor original
-def resetField(): -> None:
+def resetField() -> None:
     field = []
     for i in range(7):
         row = []
@@ -172,5 +172,5 @@ def menu() -> None:
             case _:
                 print("Opção inválida.")
 
-
-menu()
+if __name__ == "__main__":
+    menu()
