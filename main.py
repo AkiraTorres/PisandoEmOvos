@@ -5,35 +5,32 @@ settings = {
     "wanderer": 0,
     "riggerScore": 0,
     "wandererScore": 0,
-    "traps": 15
 }
 
 
-field = []
-for i in range(7):
-    row = []
-    for j in range(7):
-        row.append("A")
-    field.append(row)
-
-
-# imprime o terreno
-def printField() -> None:
-    for row in field:
-        for value in row:
-            print(f"{value} ", end="")
-        print()
-    print()
-
-
 # redefine o terreno para o valor original
-def resetField() -> None:
+def resetField() -> list:
     field = []
     for i in range(7):
         row = []
         for j in range(7):
             row.append("A")
         field.append(row)
+    return field
+
+
+# imprime o terreno
+def printField(field) -> None:
+    for i in range(8):
+        for j in range(8):
+            if i == 0:
+                print(f'{j} ', end="")
+            elif j == 0:
+                print(f'{i} ', end="")
+            else:
+                print(f"{field[i - 1][j - 1]} ", end="")
+        print()
+    print()
 
 
 # verifica os espaços válidos na próxima linha do terreno
@@ -62,7 +59,7 @@ def validateInput(validSpaces = [1, 2], str = "Qual jogador plantará as armadil
 
 
 # verifica se o espaço dado contém uma armadilha
-def verifyTraps(row: int, column: int) -> bool:
+def verifyTraps(field, row: int, column: int) -> bool:
     if field[row][column] == "A":
         return False
     elif field[row][column] == "O":
@@ -82,7 +79,7 @@ def defineRigger() -> None:
 
 
 # procedimento para o armador plantar as armadilhas no terreno
-def plantTraps() -> None:
+def plantTraps() -> list:
     if settings["rigger"] != 1 and settings["rigger"] != 2:
         print("Armador não selecionado, por favor, defina o armador.")
         return 0
@@ -91,10 +88,11 @@ def plantTraps() -> None:
     counter = 0
     traps = 0
 
-    printField()
+    field = resetField()
+    printField(field)
 
     while counter < 7:
-        if traps == 15:
+        if traps >= 15:
             print(f"Você já escondeu o máximo de 15 ovos no terreno, agora é a vez do jogador {settings['wanderer']}.")
             break
         place = (int(input(f'Em qual coluna da linha {counter + 1} você quer esconder os ovos podres[1 a 7, ou 0 para passar para a próxima linha]? ')))
@@ -104,15 +102,20 @@ def plantTraps() -> None:
             continue
         field[counter][(place - 1)] = "O"
         traps += 1
-        if field[counter].count("O") == 3:
+        if field[counter].count("O") >= 3:
             counter+=1
             print("Você já colocou o máximo de 3 armadilhas nessa linha, vá para a próxima.\n")
 
-    printField()
+    printField(field)
+    return field
 
 
 # função para possibilitar o andarilho caminhar pelo mapa
-def walk() -> None:
+def walk(field) -> None:
+    if field == []:
+        print("O armador deve colocar as armadilhas antes do andarilho poder começar!")
+        return 0
+
     for i in range(100):
         n = "=" * i
         print(n)
@@ -122,7 +125,7 @@ def walk() -> None:
         validSpaces = validateSpace(space)
         print(f'Para a linha {row + 1} são válidos os espaços: {validSpaces}.')
         space = validateInput(validSpaces, 'Escolha sabiamente um dos espaços válidos: ')
-        if verifyTraps(row, space - 1) == False:
+        if verifyTraps(field, row, space - 1) == False:
             print("Ufa! Você não pisou em nenhuma armadilha dessa vez!\n")
         else:
             print("Eca! Você pisou em um ovo podre e perdeu.\n")
@@ -145,6 +148,7 @@ def showScoreboard() -> None:
 
 # função com o menu do jogo
 def menu() -> None:
+    field = []
     n = -1
     while n != 0:
         print("1 - Definir Armador")
@@ -159,10 +163,10 @@ def menu() -> None:
                 defineRigger()
             case "2":
                 os.system("clear")
-                plantTraps()
+                field = plantTraps()
             case "3":
                 os.system("clear")
-                walk()
+                walk(field)
             case "4":
                 os.system("clear")
                 showScoreboard()
